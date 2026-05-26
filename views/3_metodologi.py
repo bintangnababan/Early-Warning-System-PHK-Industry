@@ -92,9 +92,9 @@ with tab_teori:
         Tahun ini, pemerintah menaikkan UMP menjadi Rp3.300.000 (naik 10%), tetapi inflasi menaikkan IHK ($P$) menjadi $105$ (naik 5%). Kapasitas PDRB stagnan.
 
         **Langkah Perhitungan:**
-        1. Upah Riil Tahun Lalu ($RUpah_{t-1}$):
+        1. Upah Riil Tahun Lalu ($R_{\text{Upah}_{t-1}}$):
            $\frac{W}{P} = \frac{3.000.000}{100} = 30.000$ (Satuan Daya Beli)
-        2. Upah Riil Tahun Ini ($RUpah_t$):
+        2. Upah Riil Tahun Ini ($R_{\text{Upah}_t}$):
            $\frac{W}{P} = \frac{3.300.000}{105} = 31.428$ (Satuan Daya Beli)
 
         *Kesimpulan Analitik:* Meskipun tergerus inflasi, beban upah riil yang harus dibayar perusahaan tetap naik sekitar $4.7\%$. Tanpa adanya kenaikan produktivitas pekerja, marjin keuntungan menurun, memaksa rasionalisasi karyawan ($L^d$ turun).
