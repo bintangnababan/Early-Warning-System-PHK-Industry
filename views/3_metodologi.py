@@ -10,61 +10,120 @@ st.divider()
 tab_teori, tab_interpretasi = st.tabs(["📖 Landasan Teori Makroekonomi", "📄 Laporan Analisis & Kebijakan"])
 
 # --------------------------------------------------------
-# TAB 1: LANDASAN TEORI KOMPREHENSIF
+# TAB 1: LANDASAN TEORI & PERHITUNGAN MANUAL (STATE-OF-THE-ART)
 # --------------------------------------------------------
 with tab_teori:
-    st.header("Kerangka Teoritis Analisis Pasar Tenaga Kerja")
+    st.header("Kerangka Teoritis & Pemodelan EWS")
     st.markdown("""
-    Sistem indikatif ini dibangun di atas sintesis tiga pilar utama ekonomi makro struktural. Pendekatan ini diperlukan untuk 
-    memahami transmisi kausalitas antara pertumbuhan ekonomi, stabilitas harga, dan elastisitas penyerapan tenaga kerja 
-    di tingkat regional.
+    Sistem peringatan dini (EWS) ini tidak hanya bersandar pada teori klasik, tetapi telah dikalibrasi menggunakan 
+    temuan empiris makroekonomi, ekonometrika spasial, dan *Machine Learning* dalam lima tahun terakhir (2021-2026).
     """)
     
     st.markdown("---")
-    st.subheader("1. Hukum Okun (Okun's Law) & Dinamika Output-Ketenagakerjaan")
+    # ==========================================
+    # 1. HUKUM OKUN
+    # ==========================================
+    st.subheader("1. Hukum Okun & Asimetri Jobless Growth")
     st.latex(r"\Delta U = \alpha - \beta(g)")
+    st.markdown(rf"""
+    **Dinamika Asimetris (2024-2025):** Formulasi klasik Okun (1962) mengasumsikan korelasi linier antara pertumbuhan ($g$) dan perubahan pengangguran ($\Delta U$). Namun, riset empiris lintas-negara pasca-pandemi (Pitoňáková et al., 2025; Akkoyunlu, 2024) membuktikan bahwa koefisien $\beta$ kini bersifat sangat asimetris. 
     
-    st.markdown(r"""
-    **Mekanisme Transmisi dan Koefisien Elastisitas:** Formulasi Arthur Okun (1962) mempostulatkan adanya hubungan empiris negatif antara perubahan tingkat pengangguran ($\Delta U$) 
-    dan pertumbuhan ekonomi riil ($g$). Parameter $\alpha$ merepresentasikan tingkat pertumbuhan ekonomi minimum yang diperlukan 
-    hanya untuk menjaga agar tingkat pengangguran tetap konstan (mengingat adanya pertumbuhan angkatan kerja baru dan peningkatan produktivitas). 
-    Sementara itu, koefisien $\beta$ mengukur elastisitas penyerapan tenaga kerja terhadap setiap persen pertumbuhan output.
-
-    **Kondisi Batas Struktural (Jobless Growth):** Dalam konteks ekonomi regional, hukum ini sering kali mengalami deviasi akibat perubahan struktur ekonomi. Fenomena *Jobless Growth* terjadi ketika pertumbuhan PDRB digerakkan oleh sektor padat modal (seperti industri ekstraktif, keuangan, atau teknologi tinggi) atau 
-    melalui intensifikasi modal tanpa perluasan lapangan kerja riil. Dalam kondisi ini, meskipun angka $g$ tinggi, koefisien $\beta$ mengecil 
-    sehingga gagal menurunkan angka pengangguran secara signifikan.
+    **Kondisi Batas Struktural:** Elastisitas penyerapan tenaga kerja terbukti melemah secara drastis selama fase ekspansi/pemulihan dibandingkan dengan fase resesi. Fenomena ini memvalidasi kerentanan *Jobless Growth*, di mana PDRB yang didorong oleh intensifikasi modal di sektor tertentu gagal menurunkan tingkat pengangguran secara agregat.
     """)
+    with st.expander("🧮 Bedah Perhitungan Manual: Simulasi Hukum Okun"):
+        st.markdown(r"""
+        **Skenario:**
+        Sebuah provinsi memiliki tingkat pengangguran awal $U_{t-1} = 6.0\%$. Parameter historis menunjukkan pertumbuhan ekonomi minimum untuk menahan pengangguran ($\alpha$) adalah $2.5\%$, dan koefisien serapan tenaga kerja ($\beta$) adalah $0.4$. Tahun ini, provinsi tersebut mencetak pertumbuhan PDRB ($g$) sebesar $4.0\%$.
+
+        **Langkah Perhitungan:**
+        1. Menghitung delta pengangguran: 
+           $\Delta U = \alpha - \beta(g)$
+           $\Delta U = 2.5 - 0.4(4.0)$
+           $\Delta U = 2.5 - 1.6 = +0.9\%$
+        2. Pengangguran aktual tahun ini:
+           $U_t = U_{t-1} + \Delta U$
+           $U_t = 6.0\% + 0.9\% = 6.9\%$
+
+        *Kesimpulan Analitik:* Meskipun ekonomi tumbuh positif (4.0%), angkanya tidak cukup tinggi untuk menyerap angkatan kerja baru dan menutupi efisiensi industri, sehingga pengangguran justru **naik** menjadi 6.9%.
+        """)
     
     st.markdown("---")
-    st.subheader("2. Kurva Phillips (Phillips Curve) & Ekspektasi Inflasi-Pengangguran")
+    # ==========================================
+    # 2. KURVA PHILLIPS
+    # ==========================================
+    st.subheader("2. Kurva Phillips Non-Linier & Guncangan Pasokan")
     st.latex(r"\pi = \pi^e - \beta(U - U^n) + v")
+    st.markdown(rf"""
+    **Transisi ke Model Non-Linier:** Literatur makroekonomi termutakhir (Benigno & Eggertsson, 2023; Mercan et al., 2024) merevisi model Kurva Phillips klasik menjadi sangat non-linier (*steep nonlinear Phillips curve*) akibat gesekan pasar kerja yang baru. 
     
-    st.markdown(r"""
-    **Interaksi Jangka Pendek dan Guncangan Sisi Penawaran:** Kurva Phillips modern (dikembangkan dari A.W. Phillips, 1958) menjelaskan tarik-ulur (*trade-off*) jangka pendek antara 
-    tingkat inflasi ($\pi$) dan pengangguran ($U$). Dinamika ini dipengaruhi oleh ekspektasi inflasi dari pelaku pasar ($\pi^e$), 
-    tingkat pengangguran alamiah ($U^n$), dan guncangan pasokan eksternal ($v$). Ketika pasar tenaga kerja mengetat ($U < U^n$), 
-    daya tawar pekerja meningkat, memicu kenaikan upah nominal yang kemudian ditransmisikan oleh produsen ke dalam harga jual produk (inflasi).
-
-    **Ancaman Stagflasi Sektoral:** Jika perekonomian dihantam oleh guncangan pasokan ($v$) yang parah—seperti lonjakan biaya logistik, krisis energi, atau disrupsi 
-    rantai pasok global—kurva Phillips akan bergeser secara struktural ke arah kanan atas. Kondisi ini melahirkan *Stagflasi*, di mana 
-    inflasi tinggi dan pengangguran tinggi terjadi secara simultan. Dalam kondisi ini, instrumen kebijakan stimulus permintaan konvensional 
-    menjadi tidak efektif karena meredakan satu sisi justru akan memperparah sisi lainnya.
+    **Ancaman Stagflasi Sektoral:** Tingkat inflasi ($\pi$) saat ini jauh lebih sensitif terhadap pengetatan pasar dan guncangan rantai pasok eksternal ($v$). Ketika pasar kerja menyempit, daya tawar pekerja memicu kenaikan upah nominal yang langsung ditransmisikan ke harga jual produk. 
     """)
+    with st.expander("🧮 Bedah Perhitungan Manual: Simulasi Kurva Phillips"):
+        st.markdown(r"""
+        **Skenario:**
+        Ekspektasi inflasi masyarakat ($\pi^e$) adalah $3.0\%$. Tingkat pengangguran alamiah ($U^n$) adalah $5.0\%$. Pengangguran aktual ($U$) turun menjadi $4.0\%$ (pasar kerja ketat). Sensitivitas upah terhadap inflasi ($\beta$) adalah $0.5$. Tiba-tiba terjadi guncangan harga energi global ($v$) sebesar $2.0\%$.
+
+        **Langkah Perhitungan:**
+        1. Hitung dorongan dari pasar kerja (Demand-pull):
+           $-\beta(U - U^n) = -0.5(4.0 - 5.0) = -0.5(-1.0) = +0.5\%$
+        2. Hitung inflasi total ($\pi$):
+           $\pi = \pi^e + \text{Dorongan Pasar} + v$
+           $\pi = 3.0\% + 0.5\% + 2.0\%$
+           $\pi = 5.5\%$
+
+        *Kesimpulan Analitik:* Inflasi melonjak hingga 5.5%. Guncangan eksternal ($v$) memperburuk inflasi yang sudah mulai memanas akibat pengetatan pasar kerja ($U < U^n$).
+        """)
     
     st.markdown("---")
-    st.subheader("3. Teori Permintaan Tenaga Kerja Neoklasik & Struktur Beban Upah Riil")
+    # ==========================================
+    # 3. TEORI NEOKLASIK
+    # ==========================================
+    st.subheader("3. Teori Neoklasik, Otomatisasi & Substitusi Tenaga Kerja")
     st.latex(r"L^d = f\left(\frac{W}{P}\right)")
-    st.markdown(r"""
-    **Produktivitas Marjinal dan Maksimalisasi Keuntungan:** Berdasarkan teori Neoklasik (Borjas, 2014), perusahaan mengoptimalkan keuntungan dengan mempekerjakan tenaga kerja hingga titik 
-    di mana Produk Marjinal Tenaga Kerja (*Marginal Product of Labor*) sama dengan upah riil ($W/P$). Di sini, $W$ mewakili upah nominal 
-    (termasuk regulasi Upah Minimum Provinsi) dan $P$ mewakili tingkat harga umum (inflasi).
-
-    **Efek Substitusi dan Efek Output Regulasi Upah:** Kenaikan Upah Minimum Provinsi (UMP) yang tidak diimbangi oleh peningkatan produktivitas pekerja atau kenaikan nilai tambah PDRB 
-    akan menggelembungkan biaya upah riil. Industri, khususnya sektor manufaktur padat karya, akan merespons fenomena ini melalui dua jalur:
-    1. *Efek Substitusi:* Perusahaan mempercepat otomatisasi dengan mengganti tenaga kerja manusia menggunakan modal/mesin.
-    2. *Efek Output:* Perusahaan terpaksa menurunkan skala produksi atau merelokasi pabrik ke wilayah dengan biaya input lebih rendah. 
-    Kedua efek ini secara akumulatif menurunkan permintaan total tenaga kerja ($L^d$) dan memicu risiko pemutusan hubungan kerja (PHK).
+    st.markdown(rf"""
+    **Beban Upah Riil dan Otomatisasi:** Studi termutakhir oleh National Bureau of Economic Research (Acemoglu et al., 2024) dan evaluasi sektoral IMF (2025) membuktikan bahwa kenaikan Upah Minimum Provinsi (UMP) yang melebihi produktivitas marjinal tidak hanya menyebabkan PHK jangka pendek, tetapi memicu *Efek Substitusi* permanen. 
+    
+    Industri merespons biaya upah riil ($W/P$) yang tinggi dengan mempercepat investasi pada otomatisasi, yang secara struktural memangkas kapasitas penyerapan tenaga kerja manusia di masa depan.
     """)
+    with st.expander("🧮 Bedah Perhitungan Manual: Evaluasi Upah Riil"):
+        st.markdown(r"""
+        **Skenario Beban Industri:**
+        Tahun lalu, UMP Nominal ($W$) adalah Rp3.000.000 dan Indeks Harga Konsumen ($P$) adalah $100$.
+        Tahun ini, pemerintah menaikkan UMP menjadi Rp3.300.000 (naik 10%), tetapi inflasi menaikkan IHK ($P$) menjadi $105$ (naik 5%). Kapasitas PDRB stagnan.
+
+        **Langkah Perhitungan:**
+        1. Upah Riil Tahun Lalu ($RUpah_{t-1}$):
+           $\frac{W}{P} = \frac{3.000.000}{100} = 30.000$ (Satuan Daya Beli)
+        2. Upah Riil Tahun Ini ($RUpah_t$):
+           $\frac{W}{P} = \frac{3.300.000}{105} = 31.428$ (Satuan Daya Beli)
+
+        *Kesimpulan Analitik:* Meskipun tergerus inflasi, beban upah riil yang harus dibayar perusahaan tetap naik sekitar $4.7\%$. Tanpa adanya kenaikan produktivitas pekerja, marjin keuntungan menurun, memaksa rasionalisasi karyawan ($L^d$ turun).
+        """)
+
+    st.markdown("---")
+    # ==========================================
+    # 4. MACHINE LEARNING (PCA & K-MEANS)
+    # ==========================================
+    st.subheader("4. Metodologi EWS Berbasis Unsupervised Machine Learning")
+    st.markdown(rf"""
+    **Evolusi Analitik Data:** Mengadopsi pergeseran paradigma metodologi pemantauan risiko sistemik (Macroeconomic Early Warning Systems, 2025), sistem ini meninggalkan pembobotan linier statis.
+    
+    **Ekstraksi Risiko (PCA & K-Means):** Algoritma *Principal Component Analysis* (PCA) digunakan untuk mengekstrak variansi krisis secara *data-driven*. Selanjutnya, *Spatial Clustering* (K-Means) diterapkan untuk memetakan kedekatan Euclidean antar-provinsi guna mendeteksi efek rambatan spasial (*Spatial Spillover Effect*).
+    """)
+    with st.expander("🧮 Bedah Perhitungan Manual: Logika Ekstraksi PCA (LSI)"):
+        st.markdown(r"""
+        Mesin ini mengubah dua variabel (Pengangguran dan Inflasi) menjadi satu Skor Risiko Utama (Labor Stress Index / LSI).
+
+        **Langkah Algoritma PCA (Simplified):**
+        1. **Standarisasi (Z-Score):** Menyamakan satuan persentase menjadi skala seragam.
+           $Z = \frac{X - \mu}{\sigma}$
+        2. **Matriks Kovarians:** Mengukur seberapa kuat pengangguran dan inflasi bergerak bersamaan di daerah tersebut (mendeteksi gejala Stagflasi).
+        3. **Ekstraksi Nilai Eigen (Eigenvalues):** Mencari garis tren (*Principal Component*) yang merepresentasikan pola stres terbesar dari data.
+        4. **Skoring Akhir (Min-Max Scaling):** Komponen utama tersebut kemudian diskalakan ke rentang 0 hingga 100.
+           $LSI = \frac{PC_{aktual} - PC_{min}}{PC_{max} - PC_{min}} \times 100$
+
+        Hasilnya: Skor $LSI = 85$ tidak lagi berarti "bobot inflasi 50% dan pengangguran 50%", melainkan representasi matematis objektif bahwa wilayah tersebut berada pada puncaknya kurva volatilitas risiko krisis.
+        """)
 
 # --------------------------------------------------------
 # TAB 2: LAPORAN ANALISIS & KEBIJAKAN (INTEGRASI TEORI)
