@@ -309,9 +309,6 @@ melalui harmonisasi regulasi upah riil yang disesuaikan dengan nilai
 tambah ekonomi riil regional demi menjaga keberlangsungan penyerapan 
 tenaga kerja formal.
 
-------------------------------------------------------------------------
-Dokumen ini disusun sebagai ringkasan interpretasi indikatif berbasis 
-bukti data makroekonomi regional.
 ========================================================================
 """
 
