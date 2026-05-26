@@ -10,32 +10,53 @@ st.set_page_config(
 )
 
 # ========================================================
-# 2. INJEKSI CSS 
+# 2. INJEKSI CSS (COMMAND CENTER & BACKGROUND IMAGE)
 # ========================================================
 st.markdown("""
     <style>
-        /* Menyembunyikan sidebar bawaan */
+        /* 1. Menyembunyikan elemen bawaan yang mengganggu */
         [data-testid="collapsedControl"] { display: none; }
         section[data-testid="stSidebar"] { display: none; }
         
-        /* Menghindari tabrakan dengan header atas */
-        .block-container { padding-top: 4.5rem !important; }
-        
-        /* STYLING MENU ADAPTIF (DARK/LIGHT MODE) */
-        /* Menghilangkan garis bawah tautan */
-        a { text-decoration: none !important; }
-        
-        /* Membuat kotak pembungkus st.page_link merespons interaksi kursor */
-        [data-testid="stPageLink-NavLink"] {
-            background-color: transparent;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s ease;
+        /* 2. Memasang Gambar Latar Belakang (Cyber/Tech Map) di seluruh aplikasi */
+        .stApp {
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         
-        /* Saat kursor diarahkan, latar belakang menggunakan warna sekunder dari tema aktif */
+        /* 3. Membuat efek kaca gelap (Dark Glassmorphism) pada kontainer utama */
+        .block-container { 
+            padding-top: 4.5rem !important; 
+            background-color: rgba(10, 14, 23, 0.85); /* Hitam transparan agar teks tetap terbaca */
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 210, 255, 0.15); /* Bayangan Cyan Neon */
+            backdrop-filter: blur(8px); /* Efek blur pada gambar latar */
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 4rem;
+        }
+        
+        /* 4. Modifikasi Tombol Navigasi Atas (Neon Hover Effect) */
+        a { text-decoration: none !important; }
+        [data-testid="stPageLink-NavLink"] {
+            background-color: rgba(21, 27, 38, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease-in-out;
+        }
         [data-testid="stPageLink-NavLink"]:hover {
-            background-color: var(--secondary-background-color) !important;
+            background-color: rgba(0, 210, 255, 0.15) !important;
+            border: 1px solid #00d2ff;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); /* Neon Glow */
+            transform: translateY(-2px);
+        }
+        
+        /* 5. Mengubah warna garis pembatas (divider) menjadi Cyan redup */
+        hr {
+            border-color: rgba(0, 210, 255, 0.2) !important;
         }
     </style>
 """, unsafe_allow_html=True)

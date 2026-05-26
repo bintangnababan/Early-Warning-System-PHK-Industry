@@ -39,31 +39,45 @@ tab_nasional, tab_provinsi = st.tabs(["📈 Analisis Agregat Nasional", "🔍 De
 with tab_nasional:
     st.subheader(f"Peta Sebaran Tekanan Labor Nasional Tahun {tahun_terkini}")
     
-    # 3A. GEOSPATIAL BUBBLE MAP
-    fig_map = px.scatter_geo(
-        df_tahun_ini,
-        lat='Latitude',
-        lon='Longitude',
-        color='LSI',
-        size='TPT',
-        hover_name='Provinsi',
-        hover_data={'Pertumbuhan_PDRB': ':.2f}%', 'TPT': ':.2f}%', 'LSI': ':.2f'},
-        color_continuous_scale='Reds',
-        range_color=[0, 100],
-        labels={'LSI': 'Skor LSI', 'TPT': 'Tingkat Pengangguran'},
-    )
+    # 3A. GEOSPATIAL CHOROPLETH MAP (PETA 38 PROVINSI ASLI)
+    import json
     
-    # Mengunci fokus visual khusus ke area Kepulauan Indonesia
-    fig_map.update_geos(
-        scope='asia',
-        lonaxis_range=[95, 141], # Batas barat-timur Indonesia
-        lataxis_range=[-11, 6],   # Batas selatan-utara Indonesia
-        showland=True, landcolor="var(--default-background-color)",
-        showocean=True, oceancolor="rgba(135, 206, 250, 0.2)"
-    )
-    fig_map.update_layout(height=450, margin={"r":0,"t":30,"l":0,"b":0})
-    st.plotly_chart(fig_map, use_container_width=True)
-    
+    # 1. Memuat file GeoJSON 38 Provinsi
+    try:
+        # Pastikan nama filenya sesuai dengan yang Anda simpan
+        with open('geo/indonesia_38.geojson', 'r', encoding='utf-8') as f:
+            geojson_indo = json.load(f)
+    except FileNotFoundError:
+        st.error("File GeoJSON 38 Provinsi tidak ditemukan. Pastikan path file benar.")
+        geojson_indo = None
+
+    if geojson_indo:
+        # 2. Render Peta Koroplet secara presisi
+        fig_map = px.choropleth_mapbox(
+            df_tahun_ini,
+            geojson=geojson_indo,
+            locations='Provinsi', # Ini adalah nama kolom di DataFrame Python kita
+            featureidkey='properties.PROVINSI', # PERBAIKAN: Menggunakan KUNCI KAPITAL sesuai JSON Anda
+            color='LSI',
+            color_continuous_scale='Reds',
+            range_color=[0, 100],
+            mapbox_style="carto-darkmatter", # Tema gelap elegan
+            zoom=3.8,
+            center={"lat": -2.0, "lon": 118.0},
+            opacity=0.7,
+            labels={'LSI': 'Skor LSI', 'Provinsi': 'Wilayah'},
+            hover_data={'Pertumbuhan_PDRB': ':.2f}%', 'TPT': ':.2f}%'}
+        )
+        
+        fig_map.update_layout(
+            height=500,
+            margin={"r":0,"t":0,"l":0,"b":0},
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#e2e8f0")
+        )
+        st.plotly_chart(fig_map, use_container_width=True)
+        
     st.divider()
 
     # 3B. KOMPONEN ANALISIS SPASIAL OTOMATIS
@@ -83,7 +97,13 @@ with tab_nasional:
             color='LSI', color_continuous_scale='Blues',
             labels={'LSI': 'Rata-rata Skor LSI', 'Pulau': 'Klaster Pulau'}
         )
-        fig_spatial_bar.update_layout(coloraxis_showscale=False, height=280)
+        fig_spatial_bar.update_layout(
+            coloraxis_showscale=False, height=280,
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#e2e8f0"),
+            xaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.05)"),
+            yaxis=dict(showgrid=False)
+        )
         st.plotly_chart(fig_spatial_bar, use_container_width=True)
         
     with col_s2:
@@ -119,8 +139,13 @@ with tab_nasional:
             labels={'LSI': 'Skor Indeks (PCA)', 'Provinsi': 'Wilayah'},
             color='LSI', color_continuous_scale='Reds'
         )
-        fig_bar.update_layout(yaxis={'categoryorder': 'total ascending'}, coloraxis_showscale=False, height=280)
-        st.plotly_chart(fig_bar, use_container_width=True)
+        fig_bar.update_layout(
+            yaxis={'categoryorder': 'total ascending'}, 
+            coloraxis_showscale=False, height=280,
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#e2e8f0"),
+            xaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.05)")
+        )
         
     with col_kanan:
         st.markdown("**Detail Indikator**")
@@ -191,9 +216,11 @@ with tab_provinsi:
     fig_line.add_trace(go.Scatter(x=df_wil['Tahun'], y=df_wil['LSI'], mode='lines+markers', line=dict(width=3), name="Skor LSI"))
     fig_line.update_layout(
         title=f"Tren Historis Labor Stress Index: {pilihan_wilayah} ({df_wil['Maturitas_Wilayah'].iloc[-1]})",
-        yaxis=dict(range=[0, 100]), 
-        xaxis=dict(tickmode='linear', dtick=1),
-        margin=dict(t=40, b=10)
+        yaxis=dict(range=[0, 100], showgrid=True, gridcolor="rgba(255,255,255,0.05)"), 
+        xaxis=dict(tickmode='linear', dtick=1, showgrid=False),
+        margin=dict(t=40, b=10),
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#e2e8f0")
     )
     st.plotly_chart(fig_line, use_container_width=True)
     
